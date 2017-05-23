@@ -2,19 +2,22 @@
  * Created by david on 5/20/17.
  */
 
-// you are here 'installing foundation' approx 7 mins in
+var webpack = require('webpack');
 
 module.exports = {
     entry: [
       'script!jquery/dist/jquery.min.js',
-      'script!foundation-sites/dist/js/foundation.min.js',
+      'script!foundation-sites/dist/foundation.min.js',
       './app/app.jsx'
     ],
     externals: {
       jquery: 'jQuery'
     },
     plugins: [
-
+      new webpack.ProvidePlugin({
+        '$': 'jquery',
+        'jQuery': 'jquery'
+      })
     ],
     output: {
         path: __dirname,
