@@ -5,7 +5,7 @@ const About = React.createClass({
 
       return (
       <div>
-      <h3>About</h3>
+      <h1 className="text-center page-title">About</h1>
         <p>Created using:
           <a href="https://facebook.github.io/react" target="_blank"> React</a>, <a href="https://www.npmjs.com/"  target="_blank"> NPM</a>,
           <a href="https://babeljs.io/" target="_blank"> Babel</a>,
@@ -23,13 +23,3 @@ const About = React.createClass({
 });
 
 module.exports = About;
-
-// same as above
-// can only do it this way when you only have a render element
-// const About = React.createClass({
-//   render: function () {
-//     return (
-//       <h3>About Component</h3>
-//     )
-//   }
-// });

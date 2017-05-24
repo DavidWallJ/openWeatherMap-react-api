@@ -125,8 +125,9 @@
 
 	// load foundation
 	__webpack_require__(267);
-
 	$(document).foundation();
+
+	__webpack_require__(272);
 
 	_reactDom2.default.render(_react2.default.createElement(
 	    _reactRouter.Router,
@@ -25609,7 +25610,7 @@
 	            _react2.default.createElement(
 	              'li',
 	              null,
-	              _react2.default.createElement('input', { type: 'search', placeholder: 'Search weather' })
+	              _react2.default.createElement('input', { type: 'search', placeholder: 'Search weather by city' })
 	            ),
 	            _react2.default.createElement(
 	              'li',
@@ -25713,7 +25714,7 @@
 	      null,
 	      _react2.default.createElement(
 	        'h1',
-	        { className: 'text-center' },
+	        { className: 'text-center page-title' },
 	        'Get Weather'
 	      ),
 	      _react2.default.createElement(_WeatherForm2.default, { onSearch: this.handleSearch }),
@@ -25759,7 +25760,7 @@
 	            _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement('input', { type: 'text', ref: 'location', placeholder: 'Enter city name' })
+	                _react2.default.createElement('input', { type: 'search', ref: 'location', placeholder: 'Search weather by city' })
 	            ),
 	            _react2.default.createElement(
 	                'div',
@@ -29453,8 +29454,8 @@
 	      "div",
 	      null,
 	      _react2.default.createElement(
-	        "h3",
-	        null,
+	        "h1",
+	        { className: "text-center page-title" },
 	        "About"
 	      ),
 	      _react2.default.createElement(
@@ -29514,16 +29515,6 @@
 
 	module.exports = About;
 
-	// same as above
-	// can only do it this way when you only have a render element
-	// const About = React.createClass({
-	//   render: function () {
-	//     return (
-	//       <h3>About Component</h3>
-	//     )
-	//   }
-	// });
-
 /***/ }),
 /* 266 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -29544,7 +29535,7 @@
 	    null,
 	    _react2.default.createElement(
 	      'h1',
-	      { className: 'text-center' },
+	      { className: 'text-center page-title' },
 	      'Examples'
 	    ),
 	    _react2.default.createElement(
@@ -30159,6 +30150,51 @@
 		// send back the fixed css
 		return fixedCss;
 	};
+
+
+/***/ }),
+/* 272 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(273);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// Prepare cssTransformation
+	var transform;
+
+	var options = {}
+	options.transform = transform
+	// add the styles to the DOM
+	var update = __webpack_require__(270)(content, options);
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../node_modules/css-loader/index.js!./app.css", function() {
+				var newContent = require("!!../../node_modules/css-loader/index.js!./app.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 273 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(269)(undefined);
+	// imports
+
+
+	// module
+	exports.push([module.id, ".page-title {\n    margin-top: 2.5rem;\n    margin-bottom: 2.5rem;\n}\n\ninput[type=search] {\n    box-shadow: none;\n}", ""]);
+
+	// exports
 
 
 /***/ })
