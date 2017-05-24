@@ -25552,7 +25552,15 @@
 
 	  onSearch: function onSearch(e) {
 	    e.preventDefault();
-	    alert('Not yet wired up!');
+
+	    var location = this.refs.location.value;
+	    var encodedLocation = encodeURIComponent(location);
+
+	    if (location.length > 0) {
+	      this.refs.location.value = '';
+	      window.location.hash = '#/?location=' + encodedLocation;
+	      // add the new location to the url
+	    }
 	  },
 	  render: function render() {
 	    return _react2.default.createElement(
@@ -25610,7 +25618,7 @@
 	            _react2.default.createElement(
 	              'li',
 	              null,
-	              _react2.default.createElement('input', { type: 'search', placeholder: 'Search weather by city' })
+	              _react2.default.createElement('input', { type: 'search', ref: 'location', placeholder: 'Search weather by city' })
 	            ),
 	            _react2.default.createElement(
 	              'li',
@@ -25667,7 +25675,10 @@
 
 	    this.setState({
 	      isLoading: true,
-	      errorMessage: undefined
+	      errorMessage: undefined,
+	      location: undefined,
+	      temp: undefined
+	      // making sure everything is cleared out from previous runs before getting new data
 	    });
 
 	    _OpenWeatherMap2.default.getTemp(location).then(function (temp) {
@@ -25682,6 +25693,26 @@
 	        errorMessage: e.message
 	      });
 	    });
+	  },
+	  componentDidMount: function componentDidMount() {
+	    var location = this.props.location.query.location;
+	    // this works because of react router.  we have access to the query string
+
+	    if (location && location.length > 0) {
+	      this.handleSearch(location);
+	      window.location.hash = '#/';
+	      // sets the url back to the root
+	    }
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(newProps) {
+	    var location = newProps.location.query.location;
+	    // this works because of react router.  we have access to the query string
+	    // this fires when we receive props from the nav bar search
+	    if (location && location.length > 0) {
+	      this.handleSearch(location);
+	      window.location.hash = '#/';
+	      // sets the url back to the root
+	    }
 	  },
 	  render: function render() {
 	    var _state = this.state,
