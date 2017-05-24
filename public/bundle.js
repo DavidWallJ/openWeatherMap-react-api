@@ -113,18 +113,18 @@
 
 	var _Weather2 = _interopRequireDefault(_Weather);
 
-	var _About = __webpack_require__(264);
+	var _About = __webpack_require__(265);
 
 	var _About2 = _interopRequireDefault(_About);
 
-	var _Examples = __webpack_require__(265);
+	var _Examples = __webpack_require__(266);
 
 	var _Examples2 = _interopRequireDefault(_Examples);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// load foundation
-	__webpack_require__(266);
+	__webpack_require__(267);
 
 	$(document).foundation();
 
@@ -25647,6 +25647,10 @@
 
 	var _OpenWeatherMap2 = _interopRequireDefault(_OpenWeatherMap);
 
+	var _ErrorModal = __webpack_require__(264);
+
+	var _ErrorModal2 = _interopRequireDefault(_ErrorModal);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Weather = _react2.default.createClass({
@@ -25660,7 +25664,10 @@
 	  handleSearch: function handleSearch(location) {
 	    var that = this;
 
-	    this.setState({ isLoading: true });
+	    this.setState({
+	      isLoading: true,
+	      errorMessage: undefined
+	    });
 
 	    _OpenWeatherMap2.default.getTemp(location).then(function (temp) {
 	      that.setState({
@@ -25668,16 +25675,19 @@
 	        temp: temp,
 	        isLoading: false
 	      });
-	    }, function (errorMessage) {
-	      that.setState({ isLoading: false });
-	      alert(errorMessage);
+	    }, function (e) {
+	      that.setState({
+	        isLoading: false,
+	        errorMessage: e.message
+	      });
 	    });
 	  },
 	  render: function render() {
 	    var _state = this.state,
 	        temp = _state.temp,
 	        location = _state.location,
-	        isLoading = _state.isLoading;
+	        isLoading = _state.isLoading,
+	        errorMessage = _state.errorMessage;
 
 
 	    function renderMessage() {
@@ -25692,6 +25702,12 @@
 	      }
 	    }
 
+	    function renderError() {
+	      if (typeof errorMessage === 'string') {
+	        return _react2.default.createElement(_ErrorModal2.default, { message: errorMessage });
+	      }
+	    }
+
 	    return _react2.default.createElement(
 	      'div',
 	      null,
@@ -25701,7 +25717,8 @@
 	        'Get Weather'
 	      ),
 	      _react2.default.createElement(_WeatherForm2.default, { onSearch: this.handleSearch }),
-	      renderMessage()
+	      renderMessage(),
+	      renderError()
 	    );
 	  }
 	});
@@ -25811,7 +25828,6 @@
 	  getTemp: function getTemp(location) {
 	    var encodedLocation = encodeURIComponent(location);
 	    var requestUrl = OPEN_WEATHER_MAP_URL + '&q=' + encodedLocation;
-	    console.log(requestUrl);
 
 	    return axios.get(requestUrl).then(function (res) {
 	      if (res.data.cod && res.data.message) {
@@ -25820,7 +25836,7 @@
 	        return res.data.main.temp;
 	      }
 	    }, function (res) {
-	      throw new Error(res.data.message);
+	      throw new Error(res.response.data.message);
 	    });
 	  }
 	};
@@ -29352,6 +29368,74 @@
 /* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+
+	var _react = __webpack_require__(8);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var errorModal = _react2.default.createClass({
+	  displayName: 'errorModal',
+
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      title: "Error"
+	    };
+	  },
+	  propTypes: {
+	    title: _react2.default.PropTypes.string,
+	    message: _react2.default.PropTypes.string.isRequired
+	  },
+	  componentDidMount: function componentDidMount() {
+	    // when this component is called
+	    var modal = new Foundation.Reveal($('#errorModal'));
+	    // make a new instance of #errorModal
+	    modal.open();
+	    // and open it
+	  },
+	  render: function render() {
+	    var _props = this.props,
+	        title = _props.title,
+	        message = _props.message;
+
+	    return _react2.default.createElement(
+	      'div',
+	      { id: 'errorModal', className: 'reveal tiny text-center', 'data-reveal': '' },
+	      _react2.default.createElement(
+	        'h4',
+	        null,
+	        title
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        message
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        _react2.default.createElement(
+	          'button',
+	          { className: 'button hollow', 'data-close': '' },
+	          'Okay'
+	        )
+	      )
+	    );
+	  }
+	}); /**
+	     * Created by david on 5/24/17.
+	     */
+
+
+	module.exports = errorModal;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+
+/***/ }),
+/* 265 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	"use strict";
 
 	var _react = __webpack_require__(8);
@@ -29441,7 +29525,7 @@
 	// });
 
 /***/ }),
-/* 265 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29496,13 +29580,13 @@
 	module.exports = Examples;
 
 /***/ }),
-/* 266 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(267);
+	var content = __webpack_require__(268);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// Prepare cssTransformation
 	var transform;
@@ -29510,7 +29594,7 @@
 	var options = {}
 	options.transform = transform
 	// add the styles to the DOM
-	var update = __webpack_require__(269)(content, options);
+	var update = __webpack_require__(270)(content, options);
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -29527,10 +29611,10 @@
 	}
 
 /***/ }),
-/* 267 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(268)(undefined);
+	exports = module.exports = __webpack_require__(269)(undefined);
 	// imports
 
 
@@ -29541,7 +29625,7 @@
 
 
 /***/ }),
-/* 268 */
+/* 269 */
 /***/ (function(module, exports) {
 
 	/*
@@ -29623,7 +29707,7 @@
 
 
 /***/ }),
-/* 269 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
@@ -29669,7 +29753,7 @@
 	var	singletonCounter = 0;
 	var	stylesInsertedAtTop = [];
 
-	var	fixUrls = __webpack_require__(270);
+	var	fixUrls = __webpack_require__(271);
 
 	module.exports = function(list, options) {
 		if (false) {
@@ -29983,7 +30067,7 @@
 
 
 /***/ }),
-/* 270 */
+/* 271 */
 /***/ (function(module, exports) {
 
 	
