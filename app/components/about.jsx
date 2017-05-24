@@ -14,7 +14,7 @@ const About = React.createClass({
           and
           <a href="https://www.heroku.com/" target="_blank"> Heroku</a>.
         </p>
-        <p>This is a full-stack React app that utilizes the openWeatherMap API service. This app can be accessed and run from anywhere.</p>
+        <p>This is a full-stack React app that utilizes the Open Weather Map API service. This app can be accessed and run from anywhere.</p>
         <p>Heroku URL: https://openweathermap-react-api.herokuapp.com/</p>
       </div>
 
