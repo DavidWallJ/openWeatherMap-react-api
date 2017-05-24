@@ -2,6 +2,9 @@
  * Created by david on 5/24/17.
  */
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import ReactDOMServer from 'react-dom/server';
+
 
 const errorModal = React.createClass({
   getDefaultProps: function () {
@@ -14,15 +17,8 @@ const errorModal = React.createClass({
     message: React.PropTypes.string.isRequired
   },
   componentDidMount: function () {
-    // when this component is called
-    const modal = new Foundation.Reveal($('#errorModal'));
-    // make a new instance of #errorModal
-    modal.open();
-    // and open it
-  },
-  render: function () {
     const {title, message} = this.props;
-    return (
+    const modalMarkup = (
       <div id="errorModal" className="reveal tiny text-center" data-reveal="">
         <h4>{title}</h4>
         <p>{message}</p>
@@ -34,6 +30,27 @@ const errorModal = React.createClass({
         </p>
       </div>
     );
+    // we put the meat of the modal up here instead of in render because it wasn't playing well with foundations
+    // because foundation is going manipulate the DOM we want to start with no DOM at all
+
+    const $modal = $(ReactDOMServer.renderToString(modalMarkup))
+    // jsx to string version in a jquery object
+    $(ReactDOM.findDOMNode(this)).html($modal);
+    // when this component is called
+    const modal = new Foundation.Reveal($('#errorModal'));
+    // make a new instance of #errorModal
+    modal.open();
+    // and open it
+  },
+  render: function () {
+
+
+    return(
+      <div>
+
+      </div>
+    );
+
   }
 });
 

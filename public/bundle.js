@@ -29406,6 +29406,14 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactDom = __webpack_require__(165);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _server = __webpack_require__(274);
+
+	var _server2 = _interopRequireDefault(_server);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var errorModal = _react2.default.createClass({
@@ -29421,18 +29429,11 @@
 	    message: _react2.default.PropTypes.string.isRequired
 	  },
 	  componentDidMount: function componentDidMount() {
-	    // when this component is called
-	    var modal = new Foundation.Reveal($('#errorModal'));
-	    // make a new instance of #errorModal
-	    modal.open();
-	    // and open it
-	  },
-	  render: function render() {
 	    var _props = this.props,
 	        title = _props.title,
 	        message = _props.message;
 
-	    return _react2.default.createElement(
+	    var modalMarkup = _react2.default.createElement(
 	      'div',
 	      { id: 'errorModal', className: 'reveal tiny text-center', 'data-reveal': '' },
 	      _react2.default.createElement(
@@ -29455,6 +29456,21 @@
 	        )
 	      )
 	    );
+	    // we put the meat of the modal up here instead of in render because it wasn't playing well with foundations
+	    // because foundation is going manipulate the DOM we want to start with no DOM at all
+
+	    var $modal = $(_server2.default.renderToString(modalMarkup));
+	    // jsx to string version in a jquery object
+	    $(_reactDom2.default.findDOMNode(this)).html($modal);
+	    // when this component is called
+	    var modal = new Foundation.Reveal($('#errorModal'));
+	    // make a new instance of #errorModal
+	    modal.open();
+	    // and open it
+	  },
+	  render: function render() {
+
+	    return _react2.default.createElement('div', null);
 	  }
 	}); /**
 	     * Created by david on 5/24/17.
@@ -30226,6 +30242,15 @@
 	exports.push([module.id, ".page-title {\n  color: #555;\n  margin-top: 2.5rem;\n  margin-bottom: 2.5rem; }\n\ninput[type=search] {\n  box-shadow: none; }\n", ""]);
 
 	// exports
+
+
+/***/ }),
+/* 274 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	module.exports = __webpack_require__(155);
 
 
 /***/ })
